@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 def count_files(dir):
     return len([1 for x in list(os.scandir(dir)) if x.is_file()])
 
@@ -14,15 +15,13 @@ def count_files(dir):
 # This script will take a path as input and concatenate the CSV-files in the folder 
 
 
-# For loop different classes
-# Path vector [cooling electricity heat hotwater water]
+# For loop different classes change to path for raw data.
 path = []
 path_test = []
-path.append("~/Project/Data_Big/cooling")
-path.append("~/Project/Data_Big/electricity/energy")
-path.append("~/Project/Data_Big/heating/energy")
-path.append("~/Project/Data_Big/hot_water")
-path.append("~/Project/Data_Big/water")
+path.append("~\Data_Big\class_1")
+path.append("~\Data_Big\class_2")
+path.append("~\Data_Big\class_3")
+path.append("~\Data_Big\class_4")
 
 
 
@@ -41,13 +40,9 @@ print("Reading & merging files")
 
 Number_Of_Files_To_Use = min(num_files_total) # number of time series to extract from each class
 print(Number_Of_Files_To_Use)
-#Number_Of_Files_To_Use = 220
-
-training_data_percentage = 0.7
-
 
 # Loop over the classes
-for i in range(5):    
+for i in range(len(path)):    
     # Defines label
     label_value = i+1
     counter2 = 0
@@ -57,7 +52,7 @@ for i in range(5):
         counter2 = counter2+1
         if counter%10 == 0:
             
-            print(str(counter) + " out of " + str(Number_Of_Files_To_Use*5) + " files have been merged.")
+            print(str(counter) + " out of " + str(Number_Of_Files_To_Use*len(path)) + " files have been merged.")
             
         df = pd.read_csv(f,sep=';',na_values=-1) # Reads the file and stores it as a pandas dataframe.
         datalist.append(df) # appends the dataframe to a list
@@ -89,8 +84,8 @@ for k in range(int(num_of_samples)):
 
 df_time_series[0,:] = np.array([labels]) # adding the label vector as the first row in the data-matrix
 
-
-filename = "Concatenated_File_total"
+# Replace ~ with desired output path.
+filename = "~\Concatenated_File_total"
 
 print("Done!, adding label vector and writing file to: " + filename +".csv")  
 if os.path.exists(filename + ".csv"): #Checks if file exists and if true removes this makes sure it overwrites it.
